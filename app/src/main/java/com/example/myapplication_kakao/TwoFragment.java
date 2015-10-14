@@ -42,7 +42,7 @@ public class TwoFragment extends Fragment {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH:mm", Locale.KOREA);
         String ds = sdf.format(new Date());
         for(int i=0; i<20; i++)
-            secondListAdapter.add(Integer.toString(R.drawable.thm_general_default_profile_image), "abc", "hello world", "10", false, ds);
+            secondListAdapter.add(Integer.toString(R.mipmap.ic_launcher), "abc", "hello world", "10", false, ds);
     }
 	
 }

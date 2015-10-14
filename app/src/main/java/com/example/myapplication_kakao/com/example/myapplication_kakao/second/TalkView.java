@@ -36,12 +36,12 @@ public class TalkView extends FrameLayout {
 
     }
     public void setTalkItem(TalkItem item){
-        imageView.setImageResource(R.drawable.thm_general_default_profile_image);
+        imageView.setImageResource(R.mipmap.ic_launcher);
         textViewPname.setText(item.p_name);
         textViewRecentTalk.setText(item.recent_talk);
         textViewPcount.setText(item.p_count);
         if(!item.alarm)
-            alarm.setImageResource(R.drawable.thm_more_function_item_itemstore_icon);
+            alarm.setImageResource(R.mipmap.ic_launcher);
         textViewDate.setText(item.date);
     }
 

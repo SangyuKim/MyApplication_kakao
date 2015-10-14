@@ -27,7 +27,7 @@ public class ProfileView  extends FrameLayout {
     }
 
     public void setProfileItem(ProfileItem item){
-        imageView.setImageResource(R.drawable.thm_general_default_profile_image);
+        imageView.setImageResource(android.R.mipmap.sym_def_app_icon);
         textView.setText(item.name);
     }
 }
