@@ -16,7 +16,7 @@ public class FourFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater,
 			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.four_grid_layout, container, false);
+		View view = inflater.inflate(R.layout.four_fragment_layout, container, false);
         boolean lock=true;
         for(int i=1; i<12; i++){
 
@@ -35,7 +35,8 @@ public class FourFragment extends Fragment {
             if(images== null) lock= false;
             if(lock) images.setImageResource(R.mipmap.ic_launcher);
         }
-
+        images = (ImageView)view.findViewById(R.id.imageView_ad);
+        images.setImageResource(R.mipmap.ic_launcher);
 
 		return view;
 	}
