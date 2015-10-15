@@ -6,7 +6,10 @@ package com.example.myapplication_kakao;
         import android.os.PersistableBundle;
         import android.support.v4.view.ViewPager;
         import android.support.v7.app.AppCompatActivity;
+        import android.support.v7.widget.Toolbar;
         import android.widget.TabHost;
+
+        import com.parse.Parse;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -17,11 +20,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Parse SDK 초기화
+        Parse.enableLocalDatastore(this);
+        // Parse.com에서 앱 콘솔 -> Setting -> Application ID와 Client Key
+        Parse.initialize(this, "Z6l1vov6rp3S8E6wdCZjcbkqxaqHy8TC5mOtijzW", "blbaVZveJj6vSXTMQbxiSjx0w2yYKZ6VrM1MjzE6");
+
         tabHost = (TabHost)findViewById(R.id.tabHost);
         tabHost.setup();
         pager = (ViewPager)findViewById(R.id.pager);
         mAdapter = new TabsAdapter(this, getSupportFragmentManager(), tabHost, pager);
-
+        
         Drawable d = getResources().getDrawable(R.drawable.ic_launcher, this.getTheme());
         mAdapter.addTab(tabHost.newTabSpec("tab1").setIndicator(null,d), OneFragment.class, null);
         mAdapter.addTab(tabHost.newTabSpec("tab2").setIndicator(null,d), TwoFragment.class, null);

@@ -1,9 +1,13 @@
 package com.example.myapplication_kakao.com.example.myapplication_kakao.first;
 
 import android.graphics.Color;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+
+import com.parse.ParseFile;
+import com.parse.ParseObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,8 +17,9 @@ import java.util.List;
  */
 public class MyAdapter extends BaseExpandableListAdapter {
     List<GroupItem> items = new ArrayList<GroupItem>();
+    static final String TAG = "MyAdapter";
 
-    public void add(String groupName, String child) {
+    public void add(String groupName, List<ParseObject> child) {
         GroupItem g = null;
         for (GroupItem item : items) {
             if (item.groupName.equals(groupName)) {
@@ -29,10 +34,37 @@ public class MyAdapter extends BaseExpandableListAdapter {
         }
 
         if (child != null) {
-            ProfileItem item = new ProfileItem();
-            g.children.add(item);
-        }
+            ProfileItem pItem;
+            for(int i=0; i<child.size(); i++) {
+                ParseObject item = (ParseObject) child.get(i);
+                pItem = new ProfileItem();
+                ParseFile imageFile = item.getParseFile("image");
+                String name = item.getString("name");
+                String statusMsg = item.getString("statusMsg");
+                if (imageFile != null) {
+                    Log.d(TAG, "image url : " + imageFile.getUrl());
+                    String url = imageFile.getUrl();
+                    pItem.url = url;
 
+                    // 부하가 크다.
+    //                imageFile.getDataInBackground(new GetDataCallback() {
+    //                    @Override
+    //                    public void done(byte[] bytes, ParseException e) {
+    //                        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+    //                        imageView.setImageBitmap(bitmap);
+    //                    }
+    //                });
+                }
+
+                if (name != null) {
+                    pItem.name = name;
+                }
+                if (statusMsg != null) {
+                    pItem.statusMsg =statusMsg;
+                }
+                g.children.add(pItem);
+            }//for
+        }//if
         notifyDataSetChanged();
     }
 

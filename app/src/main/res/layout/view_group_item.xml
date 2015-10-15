@@ -7,8 +7,10 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Large Text"
         android:id="@+id/text_name"
-        android:textSize="15sp" />
+        android:textSize="15sp"
+        android:textColor="#2ed5cd"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
 </LinearLayout>
