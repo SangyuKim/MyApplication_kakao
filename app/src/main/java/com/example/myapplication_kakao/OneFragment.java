@@ -28,7 +28,6 @@ import com.parse.SaveCallback;
 import java.util.ArrayList;
 import java.util.List;
 
-import static android.support.v4.media.MediaDescriptionCompatApi21.Builder.setTitle;
 
 public class OneFragment extends Fragment {
 	ExpandableListView listView;

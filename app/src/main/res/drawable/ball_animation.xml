@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:oneshot="false">
+    <item android:duration="150" android:drawable="@drawable/ball1"/><item android:duration="150" android:drawable="@drawable/ball2"/><item android:duration="150" android:drawable="@drawable/ball3"/><item android:duration="150" android:drawable="@drawable/ball4"/><item android:duration="150" android:drawable="@drawable/ball5"/><item android:duration="150" android:drawable="@drawable/ball6"/>
+</animation-list>
