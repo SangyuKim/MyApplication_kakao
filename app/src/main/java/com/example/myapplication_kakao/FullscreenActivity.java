@@ -1,6 +1,7 @@
 package com.example.myapplication_kakao;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Looper;
 import android.os.Message;
@@ -32,14 +33,17 @@ public class FullscreenActivity extends AppCompatActivity {
         setContentView(R.layout.activity_fullscreen);
         imageView = (ImageView)findViewById(R.id.imageView_splash);
 
-
-        autoBackPressed();
-
-    }
-    public void autoBackPressed(){
+//        Handler h = new Handler();
+//        h.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                startActivity( new Intent( FullscreenActivity.this, MainActivity.class));
+//                finish();
+//            }
+//        }, 3000);
         finish();
-
     }
+
 
     @Override
     protected void onResume() {

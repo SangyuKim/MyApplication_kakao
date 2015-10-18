@@ -3,6 +3,7 @@ package com.example.myapplication_kakao;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -16,6 +17,7 @@ import android.widget.ExpandableListView;
 
 import com.example.myapplication_kakao.com.example.myapplication_kakao.first.MyAdapter;
 
+import com.example.myapplication_kakao.com.example.myapplication_kakao.model.ParcelableParseObject;
 import com.parse.DeleteCallback;
 import com.parse.FindCallback;
 
@@ -32,11 +34,8 @@ import java.util.List;
 public class OneFragment extends Fragment {
 	ExpandableListView listView;
 	MyAdapter myAdapter;
-
-    static final String TAG = "SmallTalk_Example";
-    private static final int NEW_TALK_ACTIVITY = 1;
-    private List<ParseObject> talks = new ArrayList<>();
-    private List<ParseObject> myProfile = new ArrayList<>();
+    private ArrayList<ParseObject> talks = new ArrayList<>();
+    public ArrayList<ParseObject> myProfile = new ArrayList<>();
 
 
 
@@ -46,6 +45,14 @@ public class OneFragment extends Fragment {
 		View view = inflater.inflate(R.layout.one_fragment_layout, container, false);
 
         listView = (ExpandableListView)view.findViewById(R.id.expandableListView);
+
+        Bundle b =getArguments();
+        if(b!=null) {
+            talks = (ArrayList<ParseObject>) b.getSerializable("talks");
+            myProfile = (ArrayList<ParseObject>) b.getSerializable("myProfile");
+        }
+        getArguments().remove("talks");
+        getArguments().remove("myProfile");
         myAdapter = new MyAdapter();
         View searchView = getLayoutInflater(savedInstanceState).inflate(R.layout.search_layout, null);
         listView.addHeaderView(searchView);
@@ -82,97 +89,17 @@ public class OneFragment extends Fragment {
 
 //        myAdapter.add("새로운 친구 ", "group : "  +"/ child : "+i );
         myAdapter.add("그룹 ", talks );
-        myAdapter.add("친구 ", talks );
+        myAdapter.add("친구 ", talks);
 
     }
-    public void addFriend(){
-        ParseObject talk = new ParseObject("talk");
-        talk.put("name", "테스트");
-        talk.saveInBackground(new SaveCallback() {
-            @Override
-            public void done(ParseException e) {
-                //저장완료
-            }
-        });
-    }
-    public void getFriendProfile(){
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("talks");
-        query.findInBackground(new FindCallback<ParseObject>() {
-            @Override
-            public void done(List<ParseObject> list, ParseException e) {
-                //데이터 얻어오기
-            }
-        });
-    }
-    public void deleteFriend(){
-        ParseObject parseObject = new ParseObject("talks");
-        parseObject.deleteInBackground(new DeleteCallback() {
-            @Override
-            public void done(ParseException e) {
-                //delete
-            }
-        });
-    }
-    public void updateFriend(){
-        ParseObject parseObject = new ParseObject("talks");
-        parseObject.put("score", 1338);
-        parseObject.put("cheatMode", true);
-        parseObject.saveInBackground(new SaveCallback() {
-            @Override
-            public void done(ParseException e) {
-                //데이터 수정하기
-            }
-        });
-    }
+
 
     @Override
     public void onStart() {
         super.onStart();
-        refreshTalks(null);
-    }
-    Handler handler = new Handler();
-    // Refresh 버튼 리스너
-    public void refreshTalks(View v) {
-        // 이전 목록 지우기
-        myProfile.clear();
-        talks.clear();
 
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("talks");
-        ParseQuery<ParseObject> query2 = ParseQuery.getQuery("myProfile");
-        // talks 얻어오기
-        query.findInBackground(new FindCallback<ParseObject>() {
-            @Override
-            public void done(List<ParseObject> results, ParseException e) {
-                if (e == null) {
-                    Log.d(TAG, "Retrieved " + results.size() + " results");
-                    talks = results;
-                    handler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            myAdapter.notifyDataSetChanged();
-                        }
-                    });
-                } else {
-                    Log.d(TAG, "Error: " + e.getMessage());
-                }
-            }
-        });
-        query2.findInBackground(new FindCallback<ParseObject>() {
-            @Override
-            public void done(List<ParseObject> list, ParseException e) {
-                if (e == null) {
-                    Log.d(TAG, "Retrieved " + list.size() + " list");
-                    myProfile = list;
-                    handler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            myAdapter.notifyDataSetChanged();
-                        }
-                    });
-                } else {
-                    Log.d(TAG, "Error: " + e.getMessage());
-                }
-            }
-        });
     }
+
+
+
 }

@@ -1,13 +1,17 @@
 package com.example.myapplication_kakao;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.myapplication_kakao.com.example.myapplication_kakao.second.SecondListAdapter;
 
@@ -28,6 +32,18 @@ public class TwoFragment extends Fragment {
         listView.setAdapter(secondListAdapter);
 
         initData();
+		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				Intent intent = new Intent(getActivity(), Chat_Activity.class);
+                Log.d("two" ,"  " +getActivity().getIntent().toString());
+
+                getActivity().startActivity(intent);
+
+//				Toast.makeText(getContext(), "hello ", Toast.LENGTH_SHORT).show();
+			}
+		});
+
 		return view;
 	}
 	
