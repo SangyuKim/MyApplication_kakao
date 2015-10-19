@@ -13,6 +13,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
 import android.os.Message;
+import android.os.RemoteException;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -21,7 +22,22 @@ import com.google.android.gms.gcm.GcmListenerService;
 public class MyGcmListenerService extends GcmListenerService {
     private static final String TAG = "GCM_Example";
 
+    final RemoteServiceCallBack mCallback = new RemoteServiceCallBack(){
+        @Override
+        public void basicTypes(int anInt, long aLong, boolean aBoolean, float aFloat, double aDouble, String aString) throws RemoteException {
 
+        }
+
+        @Override
+        public void callback(String msg) throws RemoteException {
+
+        }
+
+        @Override
+        public IBinder asBinder() {
+            return null;
+        }
+    };
     Handler handler= new Handler(Looper.getMainLooper());
     @Override
     public void onMessageReceived(String from, Bundle data) {
@@ -70,5 +86,42 @@ public class MyGcmListenerService extends GcmListenerService {
         // 알림 매니저를 통해서 발송
         NotificationManager notiManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notiManager.notify(0, noti);
+
+    }
+//    public IBinder onBind(Intent intent){
+//        return mBinder;
+//    }
+    RemoteService.Stub mBinder = new RemoteService.Stub(){
+        @Override
+        public void basicTypes(int anInt, long aLong, boolean aBoolean, float aFloat, double aDouble, String aString) throws RemoteException {
+
+        }
+
+        @Override
+        public void registerCallBack(RemoteServiceCallBack rsc) throws RemoteException {
+            mCallback.register(rsc);
+        }
+
+        @Override
+        public void unregisterCallBack(RemoteServiceCallBack rsc) throws RemoteException {
+                mCallback.unregister(rsc);
+        }
+
+        @Override
+        public void addString(String str) throws RemoteException {
+            str = str + ": Callback added";
+            callbackClient(str);
+        }
+    };
+    private void callbackClient(String result){
+        final int N = mCallback.beginBroadcast();
+        for(int i=0; i <N; i ++){
+            try{
+                mCallback.getBroadcastItem(i).callback(result);
+            }catch (RemoteException e){
+                e.printStackTrace();
+            }
+            mCallback.finishBroadcast();
+        }
     }
 }

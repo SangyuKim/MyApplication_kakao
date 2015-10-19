@@ -1,74 +1,52 @@
 package com.example.myapplication_kakao;
 
-        import android.app.Activity;
-        import android.app.PendingIntent;
         import android.content.BroadcastReceiver;
         import android.content.ComponentName;
         import android.content.Context;
-        import android.content.Intent;
-        import android.content.IntentFilter;
+import android.content.Intent;
+import android.content.IntentFilter;
         import android.content.ServiceConnection;
-        import android.content.res.Resources;
         import android.graphics.drawable.Drawable;
-        import android.os.Bundle;
-        import android.os.Handler;
+import android.os.Bundle;
+import android.os.Handler;
         import android.os.IBinder;
-        import android.os.Looper;
         import android.os.Message;
-        import android.os.Messenger;
-        import android.os.Parcelable;
         import android.os.PersistableBundle;
         import android.os.RemoteException;
         import android.support.multidex.MultiDex;
-        import android.support.v4.content.LocalBroadcastManager;
-        import android.support.v4.view.ViewPager;
-        import android.support.v7.app.AppCompatActivity;
-        import android.support.v7.internal.widget.ContentFrameLayout;
-        import android.support.v7.widget.Toolbar;
-        import android.util.Log;
-        import android.view.View;
+import android.support.v4.content.LocalBroadcastManager;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.View;
+        import android.widget.Button;
         import android.widget.TabHost;
-        import android.widget.TextView;
-        import android.widget.Toast;
+import android.widget.Toast;
 
-        import com.example.myapplication_kakao.com.example.myapplication_kakao.model.ParcelableParseObject;
-        import com.example.myapplication_kakao.com.example.myapplication_kakao.model.SerializableParseObject;
-        import com.google.android.gms.common.ConnectionResult;
-        import com.google.android.gms.common.GoogleApiAvailability;
-        import com.google.android.gms.gcm.GoogleCloudMessaging;
-        import com.google.android.gms.iid.InstanceID;
-        import com.parse.FindCallback;
-        import com.parse.Parse;
-        import com.parse.ParseException;
-        import com.parse.ParseFile;
-        import com.parse.ParseObject;
-        import com.parse.ParseQuery;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
+import com.parse.FindCallback;
+import com.parse.Parse;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 
-        import java.io.IOException;
-        import java.io.Serializable;
-        import java.lang.ref.WeakReference;
-        import java.util.ArrayList;
-        import java.util.Collection;
-        import java.util.List;
-        import java.util.logging.LogRecord;
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class MainActivity extends AppCompatActivity{
 
     TabHost tabHost;
     ViewPager pager;
     TabsAdapter mAdapter;
-    Handler mHandler = new Handler(Looper.getMainLooper()){
+    Handler mHandler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
-            Log.d(TAG, "testing ...");
             super.handleMessage(msg);
-            switch (msg.what){
-                case MESSAGE_GCM :
-                    Toast.makeText(MainActivity.this, "test good", Toast.LENGTH_SHORT).show();
-                    break;
-            }
         }
     };
+    RemoteService remoteService = null;
 
     private static final int REQUEST_SERVICE = -1;
     private static final String TAG ="MainActivity";
@@ -86,6 +64,10 @@ public class MainActivity extends AppCompatActivity{
 //        tokenLabel = (TextView)findViewById(R.id.tokenLabel);
         registDevice(null);
 
+        Intent intent_bind = new Intent();
+        //패키지명, 리스너명
+        intent_bind.setClassName("com.example.myapplication_kakao", "com.example.myapplication_kakao.MyGcmListenerService");
+
         Intent intent = new Intent(this, FullscreenActivity.class);
         startActivity(intent);
 
@@ -93,7 +75,7 @@ public class MainActivity extends AppCompatActivity{
         tabHost.setup();
         pager = (ViewPager)findViewById(R.id.pager);
         mAdapter = new TabsAdapter(this, getSupportFragmentManager(), tabHost, pager);
-
+        bindCheck = bindService(intent_bind, connection, BIND_AUTO_CREATE);
 
 //        Drawable d = getResources().getDrawable(R.drawable.ic_launcher, this.getTheme());
         Drawable d = getResources().getDrawable(R.drawable.ic_launcher);
@@ -234,4 +216,55 @@ public class MainActivity extends AppCompatActivity{
         MultiDex.install(this);
 
     }
+    ServiceConnection connection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            remoteService = RemoteService.Stub.asInterface(service);
+            try{
+            remoteService.registerCallBack(mCallback);}
+            catch (RemoteException e){
+                e.printStackTrace();
+            }
+           connCheck();
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            remoteService = null;
+            connCheck();
+        }
+
+
+    };
+    private RemoteServiceCallBack mCallback= new RemoteServiceCallBack.Stub(){
+        @Override
+        public void basicTypes(int anInt, long aLong, boolean aBoolean, float aFloat, double aDouble, String aString) throws RemoteException {
+
+        }
+
+        @Override
+        public void callback(String msg) throws RemoteException {
+            changeData = msg;
+            mHandler.sendEmptyMessage(0);
+        }
+    };
+    public void connCheck(){
+        Handler handler = new Handler();
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                if(remoteService != null && bindCheck == true){
+                    btnCall.setClickable(true);
+                }else{
+                    btnCall.setClickable(false);
+                }
+            }
+        };
+        handler.post(runnable);
+    }
+    String changeData;
+    Button btnCall;
+    boolean bindCheck=false;
 }
+
+
