@@ -13,6 +13,7 @@ package com.example.myapplication_kakao;
         import android.os.Bundle;
         import android.os.Handler;
         import android.os.IBinder;
+        import android.os.Looper;
         import android.os.Message;
         import android.os.Messenger;
         import android.os.Parcelable;
@@ -56,12 +57,24 @@ public class MainActivity extends AppCompatActivity{
     TabHost tabHost;
     ViewPager pager;
     TabsAdapter mAdapter;
-    Handler mHandler = new Handler();
+    Handler mHandler = new Handler(Looper.getMainLooper()){
+        @Override
+        public void handleMessage(Message msg) {
+            Log.d(TAG, "testing ...");
+            super.handleMessage(msg);
+            switch (msg.what){
+                case MESSAGE_GCM :
+                    Toast.makeText(MainActivity.this, "test good", Toast.LENGTH_SHORT).show();
+                    break;
+            }
+        }
+    };
 
     private static final int REQUEST_SERVICE = -1;
     private static final String TAG ="MainActivity";
     public ArrayList<ParseObject> talks = new ArrayList<>();
     public ArrayList<ParseObject> myProfile = new ArrayList<>();
+    public static final int MESSAGE_GCM =-11;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
