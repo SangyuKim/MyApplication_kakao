@@ -1,26 +1,21 @@
 package com.example.myapplication_kakao;
 
         import android.content.BroadcastReceiver;
-        import android.content.ComponentName;
-        import android.content.Context;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-        import android.content.ServiceConnection;
-        import android.graphics.drawable.Drawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
-        import android.os.IBinder;
-        import android.os.Message;
-        import android.os.PersistableBundle;
-        import android.os.RemoteException;
-        import android.support.multidex.MultiDex;
+import android.os.Message;
+import android.os.PersistableBundle;
+import android.support.multidex.MultiDex;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-        import android.widget.Button;
-        import android.widget.TabHost;
+import android.widget.TabHost;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -75,7 +70,7 @@ public class MainActivity extends AppCompatActivity{
         tabHost.setup();
         pager = (ViewPager)findViewById(R.id.pager);
         mAdapter = new TabsAdapter(this, getSupportFragmentManager(), tabHost, pager);
-        bindCheck = bindService(intent_bind, connection, BIND_AUTO_CREATE);
+
 
 //        Drawable d = getResources().getDrawable(R.drawable.ic_launcher, this.getTheme());
         Drawable d = getResources().getDrawable(R.drawable.ic_launcher);
@@ -216,55 +211,7 @@ public class MainActivity extends AppCompatActivity{
         MultiDex.install(this);
 
     }
-    ServiceConnection connection = new ServiceConnection() {
-        @Override
-        public void onServiceConnected(ComponentName name, IBinder service) {
-            remoteService = RemoteService.Stub.asInterface(service);
-            try{
-            remoteService.registerCallBack(mCallback);}
-            catch (RemoteException e){
-                e.printStackTrace();
-            }
-           connCheck();
-        }
 
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
-            remoteService = null;
-            connCheck();
-        }
-
-
-    };
-    private RemoteServiceCallBack mCallback= new RemoteServiceCallBack.Stub(){
-        @Override
-        public void basicTypes(int anInt, long aLong, boolean aBoolean, float aFloat, double aDouble, String aString) throws RemoteException {
-
-        }
-
-        @Override
-        public void callback(String msg) throws RemoteException {
-            changeData = msg;
-            mHandler.sendEmptyMessage(0);
-        }
-    };
-    public void connCheck(){
-        Handler handler = new Handler();
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                if(remoteService != null && bindCheck == true){
-                    btnCall.setClickable(true);
-                }else{
-                    btnCall.setClickable(false);
-                }
-            }
-        };
-        handler.post(runnable);
-    }
-    String changeData;
-    Button btnCall;
-    boolean bindCheck=false;
 }
 
 
