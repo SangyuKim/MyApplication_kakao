@@ -55,6 +55,8 @@ public class OneFragment extends Fragment {
             myProfile = (ArrayList<ParseObject>) b.getSerializable("myProfile");
             }
         }
+        getArguments().remove("talks");
+        getArguments().remove("myProfile");
         Log.d("Tag ", "tag : "+getTag());
 
         myAdapter = new MyAdapter();
@@ -90,7 +92,6 @@ public class OneFragment extends Fragment {
 	}
     private void initData(){
         myAdapter.add("내 프로필 ", myProfile );
-
 //        myAdapter.add("새로운 친구 ", "group : "  +"/ child : "+i );
         myAdapter.add("그룹 ", talks );
         myAdapter.add("친구 ", talks);
@@ -98,25 +99,4 @@ public class OneFragment extends Fragment {
     }
 
 
-    @Override
-    public void onStart() {
-        super.onStart();
-
-    }
-    public interface OnFragmentFirstTranstitionListener{
-        void setOnFragmentFirstTransitionListener();
-    }
-    OnFragmentFirstTranstitionListener mListener;
-    public void setOnFragmentFirstTransitionListener(OnFragmentFirstTranstitionListener listener){
-        mListener = listener;
-    }
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        mListener = (OnFragmentFirstTranstitionListener)getActivity();
-    }
-    public void removeBundle(){
-        getArguments().remove("talks");
-        getArguments().remove("myProfile");
-    }
 }

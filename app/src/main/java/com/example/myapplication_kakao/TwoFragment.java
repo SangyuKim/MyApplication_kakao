@@ -23,7 +23,6 @@ import java.util.Locale;
 public class TwoFragment extends Fragment {
 	ListView listView;
     SecondListAdapter secondListAdapter;
-	Bundle b;
 	@Override
 	public View onCreateView(LayoutInflater inflater,
 			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -31,11 +30,6 @@ public class TwoFragment extends Fragment {
 		listView = (ListView)view.findViewById(R.id.listView);
         secondListAdapter = new SecondListAdapter();
         listView.setAdapter(secondListAdapter);
-
-		if(getTag() != null)
-		Log.d("TagID","Two Fragment ID : "+		getId() +"Tag : " +getTag());
-
-
 
 		initData();
 		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -45,15 +39,8 @@ public class TwoFragment extends Fragment {
                 Log.d("two" ,"  " +getActivity().getIntent().toString());
 				if(mListener!=null)
 					mListener.onSetTransitionListener();
-				//lock이 됐는지 확인 값 받기
-				b= getArguments();
-				if(b != null){
-						Log.d("lock","lock" +b.getBoolean("lock"));
-						getActivity().startActivity(intent);
-				}
 
-
-//				Toast.makeText(getContext(), "hello ", Toast.LENGTH_SHORT).show();
+					getActivity().startActivity(intent);
 			}
 		});
 
