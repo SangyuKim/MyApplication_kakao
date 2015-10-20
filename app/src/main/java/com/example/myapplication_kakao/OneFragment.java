@@ -1,45 +1,27 @@
 package com.example.myapplication_kakao;
 
 
-import android.content.Context;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 
-
-
 import com.example.myapplication_kakao.com.example.myapplication_kakao.first.MyAdapter;
-
-import com.example.myapplication_kakao.com.example.myapplication_kakao.model.ParcelableParseObject;
-import com.parse.DeleteCallback;
-import com.parse.FindCallback;
-
-import com.parse.ParseException;
-import com.parse.ParseFile;
 import com.parse.ParseObject;
-import com.parse.ParseQuery;
-import com.parse.SaveCallback;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
 public class OneFragment extends Fragment {
-	ExpandableListView listView;
-	MyAdapter myAdapter;
-    private ArrayList<ParseObject> talks = new ArrayList<>();
     public ArrayList<ParseObject> myProfile = new ArrayList<>();
+    ExpandableListView listView;
+    MyAdapter myAdapter;
     boolean lock;
-
-
+    private ArrayList<ParseObject> talks = new ArrayList<>();
 
     @Override
 	public View onCreateView(LayoutInflater inflater,
@@ -98,5 +80,9 @@ public class OneFragment extends Fragment {
 
     }
 
+    public void removeBundle() {
+        getArguments().remove("talks");
+        getArguments().remove("myProfile");
+    }
 
 }
