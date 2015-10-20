@@ -51,8 +51,22 @@ public class OneFragment extends Fragment {
             talks = (ArrayList<ParseObject>) b.getSerializable("talks");
             myProfile = (ArrayList<ParseObject>) b.getSerializable("myProfile");
         }
-        getArguments().remove("talks");
-        getArguments().remove("myProfile");
+        TwoFragment twoFragment = (TwoFragment)getFragmentManager().findFragmentByTag(getTag()+":1");
+        if(twoFragment != null) {
+            Log.d("listener","no null");
+            twoFragment.setTransitionListener(new TwoFragment.OnTransitionListener() {
+                @Override
+                public void onSetTransitionListener() {
+                    Log.d("listener","ok");
+                    getArguments().remove("talks");
+                    getArguments().remove("myProfile");
+                }
+            });
+        }
+        if(getTag() != null)
+            Log.d("TagID","One Fragment ID : "+		getId() +"Tag : " +getTag());
+//        getArguments().remove("talks");
+//        getArguments().remove("myProfile");
         myAdapter = new MyAdapter();
         View searchView = getLayoutInflater(savedInstanceState).inflate(R.layout.search_layout, null);
         listView.addHeaderView(searchView);

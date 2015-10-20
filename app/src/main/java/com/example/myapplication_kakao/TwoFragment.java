@@ -31,13 +31,19 @@ public class TwoFragment extends Fragment {
         secondListAdapter = new SecondListAdapter();
         listView.setAdapter(secondListAdapter);
 
-        initData();
+		if(getTag() != null)
+		Log.d("TagID","Two Fragment ID : "+		getId() +"Tag : " +getTag());
+
+
+
+		initData();
 		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				Intent intent = new Intent(getActivity(), Chat_Activity.class);
                 Log.d("two" ,"  " +getActivity().getIntent().toString());
-
+				if(mListener!=null)
+					mListener.onSetTransitionListener();
                 getActivity().startActivity(intent);
 
 //				Toast.makeText(getContext(), "hello ", Toast.LENGTH_SHORT).show();
@@ -60,5 +66,11 @@ public class TwoFragment extends Fragment {
         for(int i=0; i<20; i++)
             secondListAdapter.add(Integer.toString(R.mipmap.ic_launcher), "abc", "hello world", "10", false, ds);
     }
-	
+	public interface OnTransitionListener{
+		public void onSetTransitionListener();
+	}
+	OnTransitionListener mListener;
+	public void setTransitionListener(OnTransitionListener listener){
+		mListener = listener;
+	}
 }
