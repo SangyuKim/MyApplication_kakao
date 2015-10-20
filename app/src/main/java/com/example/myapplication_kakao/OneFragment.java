@@ -50,22 +50,13 @@ public class OneFragment extends Fragment {
 
         Bundle b =getArguments();
         if(b!=null) {
+            if(b.getSerializable("talks")!=null && b.getSerializable("myProfile")!= null){
             talks = (ArrayList<ParseObject>) b.getSerializable("talks");
             myProfile = (ArrayList<ParseObject>) b.getSerializable("myProfile");
-            lock = b.getBoolean("fragment2", false);
-            Log.d("OneFragment","init  get"+ lock);
+            }
         }
+        Log.d("Tag ", "tag : "+getTag());
 
-        if(getTag() != null)
-            Log.d("TagID","One Fragment ID : "+		getId() +"Tag : " +getTag());
-        Log.d("OneFragment","boolean " +b.getBoolean("fragment2"));
-        Log.d("OneFragment", "lock " +lock);
-        if(lock){
-            Log.d("OneFragment","fragment2 get");
-            getArguments().remove("talks");
-            getArguments().remove("myProfile");
-            lock=false;
-        }
         myAdapter = new MyAdapter();
         View searchView = getLayoutInflater(savedInstanceState).inflate(R.layout.search_layout, null);
         listView.addHeaderView(searchView);
@@ -112,6 +103,20 @@ public class OneFragment extends Fragment {
         super.onStart();
 
     }
-
-
+    public interface OnFragmentFirstTranstitionListener{
+        void setOnFragmentFirstTransitionListener();
+    }
+    OnFragmentFirstTranstitionListener mListener;
+    public void setOnFragmentFirstTransitionListener(OnFragmentFirstTranstitionListener listener){
+        mListener = listener;
+    }
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mListener = (OnFragmentFirstTranstitionListener)getActivity();
+    }
+    public void removeBundle(){
+        getArguments().remove("talks");
+        getArguments().remove("myProfile");
+    }
 }

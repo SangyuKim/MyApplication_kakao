@@ -30,7 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity implements TwoFragment.OnTransitionListener{
+public class MainActivity extends AppCompatActivity implements TwoFragment.OnTransitionListener, OneFragment.OnFragmentFirstTranstitionListener {
 
     TabHost tabHost;
     ViewPager pager;
@@ -53,13 +53,8 @@ public class MainActivity extends AppCompatActivity implements TwoFragment.OnTra
     @Override
     public void onSetTransitionListener() {
         Log.d("listener", " ok");
-        mHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                b2.putBoolean("fragment2", lock);
-                Log.d("OneFragment", "fragment2 done");
-            }
-        });
+        OneFragment oneFragment = (OneFragment)getSupportFragmentManager().findFragmentByTag("android:switcher:2131558525:0");
+        oneFragment.removeBundle();
 
     }
 
@@ -89,11 +84,12 @@ public class MainActivity extends AppCompatActivity implements TwoFragment.OnTra
 //        Drawable d = getResources().getDrawable(R.drawable.ic_launcher, this.getTheme());
         Drawable d = getResources().getDrawable(R.drawable.ic_launcher);
         b2 = new Bundle();
+        bb = new Bundle();
 
 
 
         mAdapter.addTab(tabHost.newTabSpec("tab1").setIndicator(null, d), OneFragment.class, b2);
-        mAdapter.addTab(tabHost.newTabSpec("tab2").setIndicator(null,d), TwoFragment.class, null);
+        mAdapter.addTab(tabHost.newTabSpec("tab2").setIndicator(null,d), TwoFragment.class, bb);
         mAdapter.addTab(tabHost.newTabSpec("tab3").setIndicator(null, d), ThreeFragment.class, null);
         mAdapter.addTab(tabHost.newTabSpec("tab4").setIndicator(null, d), FourFragment.class, null);
 
@@ -226,7 +222,20 @@ public class MainActivity extends AppCompatActivity implements TwoFragment.OnTra
         MultiDex.install(this);
 
     }
+    Bundle bb;
+    @Override
+    public void setOnFragmentFirstTransitionListener() {
 
+        Log.d("listener2", " ok");
+        mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                bb.putBoolean("lock", lock);
+                Log.d("TwoFragment", "fragment2 done");
+            }
+        });
+
+    }
 }
 
 

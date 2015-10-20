@@ -26,12 +26,10 @@ repositories {
     }
 }
 dependencies {
-
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     compile files('libs/bolts-android-1.2.1.jar')
     compile files('libs/Parse-1.10.3.jar')
-
     compile 'com.android.support:appcompat-v7:23.0.1'
     compile 'com.github.siyamed:android-shape-imageview:0.9.3'
     compile 'com.google.guava:guava:18.0'
@@ -40,5 +38,6 @@ dependencies {
     compile 'com.android.support:support-v4:23.0.1'
     compile 'com.google.android.gms:play-services:8.1.0'
     compile 'com.google.android.gms:play-services-gcm:8.1.0'
-    compile 'com.android.support:multidex:1.0.0'
+    compile 'com.android.support:multidex:1.0.1'
+    compile 'com.google.code.gson:gson:2.2.4'
 }

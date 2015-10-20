@@ -23,7 +23,7 @@ import java.util.Locale;
 public class TwoFragment extends Fragment {
 	ListView listView;
     SecondListAdapter secondListAdapter;
-
+	Bundle b;
 	@Override
 	public View onCreateView(LayoutInflater inflater,
 			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -45,7 +45,13 @@ public class TwoFragment extends Fragment {
                 Log.d("two" ,"  " +getActivity().getIntent().toString());
 				if(mListener!=null)
 					mListener.onSetTransitionListener();
-                getActivity().startActivity(intent);
+				//lock이 됐는지 확인 값 받기
+				b= getArguments();
+				if(b != null){
+						Log.d("lock","lock" +b.getBoolean("lock"));
+						getActivity().startActivity(intent);
+				}
+
 
 //				Toast.makeText(getContext(), "hello ", Toast.LENGTH_SHORT).show();
 			}
