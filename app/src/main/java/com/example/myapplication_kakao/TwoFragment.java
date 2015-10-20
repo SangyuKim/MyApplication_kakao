@@ -1,5 +1,6 @@
 package com.example.myapplication_kakao;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -72,5 +73,11 @@ public class TwoFragment extends Fragment {
 	OnTransitionListener mListener;
 	public void setTransitionListener(OnTransitionListener listener){
 		mListener = listener;
+	}
+
+	@Override
+	public void onAttach(Context context) {
+		super.onAttach(context);
+		mListener = (OnTransitionListener)getActivity();
 	}
 }

@@ -1,6 +1,7 @@
 package com.example.myapplication_kakao;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
@@ -36,6 +37,7 @@ public class OneFragment extends Fragment {
 	MyAdapter myAdapter;
     private ArrayList<ParseObject> talks = new ArrayList<>();
     public ArrayList<ParseObject> myProfile = new ArrayList<>();
+    boolean lock;
 
 
 
@@ -50,23 +52,20 @@ public class OneFragment extends Fragment {
         if(b!=null) {
             talks = (ArrayList<ParseObject>) b.getSerializable("talks");
             myProfile = (ArrayList<ParseObject>) b.getSerializable("myProfile");
+            lock = b.getBoolean("fragment2", false);
+            Log.d("OneFragment","init  get"+ lock);
         }
-        TwoFragment twoFragment = (TwoFragment)getFragmentManager().findFragmentByTag(getTag()+":1");
-        if(twoFragment != null) {
-            Log.d("listener","no null");
-            twoFragment.setTransitionListener(new TwoFragment.OnTransitionListener() {
-                @Override
-                public void onSetTransitionListener() {
-                    Log.d("listener","ok");
-                    getArguments().remove("talks");
-                    getArguments().remove("myProfile");
-                }
-            });
-        }
+
         if(getTag() != null)
             Log.d("TagID","One Fragment ID : "+		getId() +"Tag : " +getTag());
-//        getArguments().remove("talks");
-//        getArguments().remove("myProfile");
+        Log.d("OneFragment","boolean " +b.getBoolean("fragment2"));
+        Log.d("OneFragment", "lock " +lock);
+        if(lock){
+            Log.d("OneFragment","fragment2 get");
+            getArguments().remove("talks");
+            getArguments().remove("myProfile");
+            lock=false;
+        }
         myAdapter = new MyAdapter();
         View searchView = getLayoutInflater(savedInstanceState).inflate(R.layout.search_layout, null);
         listView.addHeaderView(searchView);
@@ -113,7 +112,6 @@ public class OneFragment extends Fragment {
         super.onStart();
 
     }
-
 
 
 }

@@ -30,7 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity implements TwoFragment.OnTransitionListener{
 
     TabHost tabHost;
     ViewPager pager;
@@ -48,6 +48,20 @@ public class MainActivity extends AppCompatActivity{
     public ArrayList<ParseObject> talks = new ArrayList<>();
     public ArrayList<ParseObject> myProfile = new ArrayList<>();
     public static final int MESSAGE_GCM =-11;
+    boolean lock= true;
+
+    @Override
+    public void onSetTransitionListener() {
+        Log.d("listener", " ok");
+        mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                b2.putBoolean("fragment2", lock);
+                Log.d("OneFragment", "fragment2 done");
+            }
+        });
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +96,7 @@ public class MainActivity extends AppCompatActivity{
         mAdapter.addTab(tabHost.newTabSpec("tab2").setIndicator(null,d), TwoFragment.class, null);
         mAdapter.addTab(tabHost.newTabSpec("tab3").setIndicator(null, d), ThreeFragment.class, null);
         mAdapter.addTab(tabHost.newTabSpec("tab4").setIndicator(null, d), FourFragment.class, null);
+
 
         if (savedInstanceState != null) {
             tabHost.setCurrentTab(savedInstanceState.getInt("tabIndex"));
