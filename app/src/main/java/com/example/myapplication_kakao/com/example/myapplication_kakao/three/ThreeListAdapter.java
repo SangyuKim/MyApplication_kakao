@@ -1,5 +1,6 @@
 package com.example.myapplication_kakao.com.example.myapplication_kakao.three;
 
+import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -15,6 +16,7 @@ import java.util.List;
  */
 public class ThreeListAdapter extends BaseAdapter {
     List<TalkItem> items = new ArrayList<>();
+    List<GridViewThreeFragment> gridItems = new ArrayList<>();
 
 
     public void addItem(String image, String p_name, String recent_talk, String p_count, boolean alarm, String date) {
@@ -31,18 +33,27 @@ public class ThreeListAdapter extends BaseAdapter {
 
         notifyDataSetChanged();
     }
+    public void addGridView(GridViewThreeFragment gridView){
+
+        gridItems.add(gridView);
+        notifyDataSetChanged();
+
+    }
 
     @Override
     public int getCount() {
-        return items.size() + 1;
+        return items.size() + 1 + gridItems.size();
     }
 
     @Override
     public Object getItem(int position) {
         if (position == 0) {
             return null;
-        } else
-            return items.get(position);
+        } else if(position >0 && position <1+ items.size()){
+            return items.get(position -1);
+        }else{
+            return gridItems.get(position - 1 - items.size());
+        }
     }
 
     @Override
@@ -54,11 +65,14 @@ public class ThreeListAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         ViewFlipperView flipperView;
+        TalkView v;
+        GridViewThreeFragment gridViewThreeFragment = new GridViewThreeFragment(parent.getContext());
+
         flipperView = new ViewFlipperView(parent.getContext());
         if (position == 0) {
             return flipperView;
         }
-        TalkView v;
+        else if(position >0 && position <1+ items.size()){
         if (convertView != null && convertView instanceof TalkView)
             v = (TalkView) convertView;
         else {
@@ -67,6 +81,11 @@ public class ThreeListAdapter extends BaseAdapter {
         v.setTalkItem(items.get(position - 1));
 
         return v;
+        }else{
+
+//            return gridItems.get(position-1-items.size());
+            return gridViewThreeFragment;
+        }
     }
 
 

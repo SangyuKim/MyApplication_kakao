@@ -3,7 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/AsyncHttp/AsyncHttp.iml" filepath="$PROJECT_DIR$/AsyncHttp/AsyncHttp.iml" />
-      <module fileurl="file://$PROJECT_DIR$/MyApplication_kakao.iml" filepath="$PROJECT_DIR$/MyApplication_kakao.iml" />
+      <module fileurl="file://$PROJECT_DIR$/MyApplication_kakao1.iml" filepath="$PROJECT_DIR$/MyApplication_kakao1.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

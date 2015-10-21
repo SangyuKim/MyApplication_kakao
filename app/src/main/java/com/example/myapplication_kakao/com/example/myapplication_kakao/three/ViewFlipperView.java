@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 import android.widget.ViewFlipper;
 
 import com.example.myapplication_kakao.R;
@@ -17,6 +18,7 @@ public class ViewFlipperView extends FrameLayout {
         init();
     }
     ViewFlipper viewFlipper;
+
     void init(){
         inflate(getContext(), R.layout.three_viewflipper_layout, this);
         viewFlipper= (ViewFlipper)findViewById(R.id.viewFlipper);

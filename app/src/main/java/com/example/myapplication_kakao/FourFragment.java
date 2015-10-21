@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.example.myapplication_kakao.com.example.myapplication_kakao.four.GridView2Adapter;
 import com.example.myapplication_kakao.com.example.myapplication_kakao.four.GridViewAdapter;
+import com.example.myapplication_kakao.com.example.myapplication_kakao.three.GridViewAdapterThreeFragment;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -28,22 +29,29 @@ public class FourFragment extends Fragment {
     GridView gridView, gridView2;
     GridViewAdapter gridViewAdapter;
 	GridView2Adapter gridView2Adapter;
+	GridViewAdapterThreeFragment gridViewAdapterThreeFragment;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater,
 			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.four_fragment_layout, container, false);
-        gridView = (GridView)view.findViewById(R.id.gridView_four_fragment);
-		gridView2 = (GridView)view.findViewById(R.id.gridView_four_fragment2);
-		imageViewAd = (ImageView)view.findViewById(R.id.imageView_ad);
-		Drawable drawable = getResources().getDrawable(R.drawable.ad_kakao);
-		imageViewAd.setImageDrawable(drawable);
-        gridViewAdapter = new GridViewAdapter();
-		gridView2Adapter = new GridView2Adapter();
-        gridView.setAdapter(gridViewAdapter);
-		gridView2.setAdapter(gridView2Adapter);
-		initData();
-		initData2();
+//		View view = inflater.inflate(R.layout.four_fragment_layout, container, false);
+//        gridView = (GridView)view.findViewById(R.id.gridView_four_fragment);
+//		gridView2 = (GridView)view.findViewById(R.id.gridView_four_fragment2);
+//		imageViewAd = (ImageView)view.findViewById(R.id.imageView_ad);
+//		Drawable drawable = getResources().getDrawable(R.drawable.ad_kakao);
+//		imageViewAd.setImageDrawable(drawable);
+//        gridViewAdapter = new GridViewAdapter();
+//		gridView2Adapter = new GridView2Adapter();
+//        gridView.setAdapter(gridViewAdapter);
+//		gridView2.setAdapter(gridView2Adapter);
+//		initData();
+//		initData2();
+
+		View view = inflater.inflate(R.layout.three_grid_content_layout, container, false);
+		gridView = (GridView)view.findViewById(R.id.gridView);
+		gridViewAdapterThreeFragment = new GridViewAdapterThreeFragment();
+		gridView.setAdapter(gridViewAdapterThreeFragment);
+		initData3();
 		return view;
 	}
 	@Override
@@ -70,6 +78,11 @@ public class FourFragment extends Fragment {
 
 		for(int i=0; i<4; i++)
 			gridView2Adapter.add( drawable, "hello world");
+	}
+	public void initData3(){
+		Drawable drawable = getResources().getDrawable(R.drawable.new01);
+		for(int i=0; i <6; i ++)
+			gridViewAdapterThreeFragment.add(drawable, "helloworld");
 	}
 
 

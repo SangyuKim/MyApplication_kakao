@@ -1,14 +1,18 @@
 package com.example.myapplication_kakao;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.myapplication_kakao.com.example.myapplication_kakao.three.GridItemViewThreeFragment;
+import com.example.myapplication_kakao.com.example.myapplication_kakao.three.GridViewThreeFragment;
 import com.example.myapplication_kakao.com.example.myapplication_kakao.three.ThreeListAdapter;
 
 import java.text.SimpleDateFormat;
@@ -27,6 +31,7 @@ public class ThreeFragment extends Fragment {
 		threeListAdapter = new ThreeListAdapter();
 		listView.setAdapter(threeListAdapter);
 		initData();
+//		initData3();
 		return view;
 	}
 	@Override
@@ -41,6 +46,10 @@ public class ThreeFragment extends Fragment {
 		String ds = sdf.format(new Date());
 		for(int i=0; i<20; i++)
 			threeListAdapter.addItem(Integer.toString(R.mipmap.ic_launcher), "abc", "hello world", "10", false, ds);
+		for(int i=0; i<5; i++){
+			GridViewThreeFragment gridViewThreeFragment = new GridViewThreeFragment(getContext());
+			threeListAdapter.addGridView(gridViewThreeFragment);
+		}
 	}
-	
+
 }
